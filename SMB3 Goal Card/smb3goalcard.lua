@@ -1,5 +1,5 @@
 local __title = "SMB3 Goal Cards";
-local __version = "1.0";
+local __version = "1.0.1";
 local __description = "Make the SMB3 Goal Card act as it did in SMB3.";
 local __author = "XNBlank";
 local __url = "https://github.com/XNBlank";
@@ -144,7 +144,7 @@ function smbGoalCard_API.endLevel()
 
     if(doesUseCard == true) then
 
-        if(Level.winState() > 0) then
+        if(Level.winState() == 1) then
 
             postWinFrameCounter = postWinFrameCounter + 1;
             local endLevelTimer = round(postWinFrameCounter / 60, 0);
