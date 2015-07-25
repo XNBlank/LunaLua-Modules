@@ -59,9 +59,9 @@ function smbGoalCard_API.onInitAPI()
     card2 = tonumber(dataInstance:get("card2"));
     card3 = tonumber(dataInstance:get("card3"));
 
-	Defines.smb3RouletteScoreValueStar = 4;
-	Defines.smb3RouletteScoreValueMushroom = 2;
-	Defines.smb3RouletteScoreValueFlower = 3;
+    --Defines.smb3RouletteScoreValueStar = 4;
+    --Defines.smb3RouletteScoreValueMushroom = 2;
+    --Defines.smb3RouletteScoreValueFlower = 3;
 
 end
 
@@ -130,14 +130,14 @@ function smbGoalCard_API.onLoopOverride()
 end
 
 function smbGoalCard_API.debugDraw()
-	--[[
-	Text.print("Card 1 = " .. dataInstance:get("card1"), 0, 100);
-	Text.print("Card 2 = " .. dataInstance:get("card2"), 0, 115);
-	Text.print("Card 3 = " .. dataInstance:get("card3"), 0, 130);
-	Text.print("Timer = " .. tostring(endLevelTimer), 0, 160);
-	
-	Text.print("Current Card = " .. tostring(thiscard), 0, 160);
-	Text.print("Cards = " .. tostring(cards), 0, 75);
+    --[[
+    Text.print("Card 1 = " .. dataInstance:get("card1"), 0, 100);
+    Text.print("Card 2 = " .. dataInstance:get("card2"), 0, 115);
+    Text.print("Card 3 = " .. dataInstance:get("card3"), 0, 130);
+    Text.print("Timer = " .. tostring(endLevelTimer), 0, 160);
+    
+    Text.print("Current Card = " .. tostring(thiscard), 0, 160);
+    Text.print("Cards = " .. tostring(cards), 0, 75);
     Text.print("Win state: " .. Level.winState(), 0, 200)
 ]]
 end
@@ -146,88 +146,88 @@ function smbGoalCard_API.endLevel()
 
         levelFinished = true;
 
-	if(doesUseCard == true) then
+    if(doesUseCard == true) then
 
         if(Level.winState() == 1) then
 
-        	postWinFrameCounter = postWinFrameCounter + 1;
-        	local endLevelTimer = round(postWinFrameCounter / 60, 0);
+            postWinFrameCounter = postWinFrameCounter + 1;
+            local endLevelTimer = round(postWinFrameCounter / 60, 0);
 
-	        if (addCard == false) then
-	        	if(cards == nil) then
-	        		cards = 0;
-	        	end
-	        	
-	        	if(cards >= 4) then
-	        		cards = 0;
-	        		addCard = true;
-	        	elseif(cards < 3) then
-	        		local newcard = 1;
-	            	cards = cards + newcard;
-	            	addCard = true;
-	            end
-	        end
+            if (addCard == false) then
+                if(cards == nil) then
+                    cards = 0;
+                end
+                
+                if(cards >= 4) then
+                    cards = 0;
+                    addCard = true;
+                elseif(cards < 3) then
+                    local newcard = 1;
+                    cards = cards + newcard;
+                    addCard = true;
+                end
+            end
 
                 gotcard = true;
 
-				if (card1 == nil) then
-					card1 = -1;
-				end
-				if (card2 == nil) then
-					card2 = -1;
-				end
-				if (card3 == nil) then
-					card3 = -1;
-				end
+                if (card1 == nil) then
+                    card1 = -1;
+                end
+                if (card2 == nil) then
+                    card2 = -1;
+                end
+                if (card3 == nil) then
+                    card3 = -1;
+                end
 
 
-				if(cards == 1) then
-					if(card1 < 0) then
-						card1 = tonumber(thiscard);
-						dCard1 = card1;
-						dataInstance:set("card1", tostring(card1));
-					end
+                if(cards == 1) then
+                    if(card1 < 0) then
+                        card1 = tonumber(thiscard);
+                        dCard1 = card1;
+                        dataInstance:set("card1", tostring(card1));
+                    end
 
-					if(card1 == 0) then
-						Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
-					elseif(card1 == 1) then
-						Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
-					elseif(card1 == 2) then
-						Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
-					end
-				end
+                    if(card1 == 0) then
+                        Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
+                    elseif(card1 == 1) then
+                        Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
+                    elseif(card1 == 2) then
+                        Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
+                    end
+                end
 
-				if(cards == 2) then
-					if(card2 < 0) then
-						card2 = tonumber(thiscard);
-						dCard2 = card2;
-						dataInstance:set("card2", tostring(card2));
-					end
+                if(cards == 2) then
+                    if(card2 < 0) then
+                        card2 = tonumber(thiscard);
+                        dCard2 = card2;
+                        dataInstance:set("card2", tostring(card2));
+                    end
 
-					if(card2 == 0) then
-						Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
-					elseif(card2 == 1) then
-						Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
-					elseif(card2 == 2) then
-						Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
-					end
-				end
+                    if(card2 == 0) then
+                        Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
+                    elseif(card2 == 1) then
+                        Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
+                    elseif(card2 == 2) then
+                        Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
+                    end
+                end
 
-				if(cards == 3) then
-					if(card3 < 0) then
-						card3 = tonumber(thiscard);
-						dCard3 = card3;
-						dataInstance:set("card3", tostring(card3));
-					end
+                if(cards == 3) then
+                    if(card3 < 0) then
+                        card3 = tonumber(thiscard);
+                        dCard3 = card3;
+                        dataInstance:set("card3", tostring(card3));
+                    end
 
-					if(card3 == 0) then
-						Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
-					elseif(card3 == 1) then
-						Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
-					elseif(card3 == 2) then
-						Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
-					end
-				end
+                    if(card3 == 0) then
+                        Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
+                    elseif(card3 == 1) then
+                        Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
+                    elseif(card3 == 2) then
+                        Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
+                    end
+                end
 
                 Text.print("Got Card!", 280, 115)
                 if(thiscard == 1) then
@@ -245,58 +245,58 @@ function smbGoalCard_API.endLevel()
                 
                 
                 if(cards == 1) then
-                	--Text.print("set card1 to " .. tostring(card1), 0, 45);
-        			
-            	elseif(cards == 2) then
-            		--Text.print("set card2 to " .. tostring(card2), 0, 45);
-        			
-        		elseif(cards == 3) then
-        			--Text.print("set card3 to " .. tostring(card3), 0, 45);
+                    --Text.print("set card1 to " .. tostring(card1), 0, 45);
+                    
+                elseif(cards == 2) then
+                    --Text.print("set card2 to " .. tostring(card2), 0, 45);
+                    
+                elseif(cards == 3) then
+                    --Text.print("set card3 to " .. tostring(card3), 0, 45);
 
-        			if(card1 == 0) and (card2 == 0) and (card3 == 0) then
-        				mem(0x00B2C5AC, FIELD_FLOAT, (curLivesCount + 5));
-        				if(playOnce == false) then
-        					playSFXSDL(resPath .. "\\1up.wav");
-        					playOnce = true;
-        				end
-        				Graphics.placeSprite(1,fiveup,500,110);
-        			elseif(card1 == 1) and (card2 == 1) and (card3 == 1) then
-        				mem(0x00B2C5AC, FIELD_FLOAT, (curLivesCount + 2));
-        				if(playOnce == false) then
-        					playSFXSDL(resPath .. "\\1up.wav");
-        					playOnce = true;
-        				end
-        				Graphics.placeSprite(1,twoup,500,110);
-        			elseif(card1 == 2) and (card2 == 2) and (card3 == 2) then
-        				mem(0x00B2C5AC, FIELD_FLOAT, (curLivesCount + 3));
-        				if(playOnce == false) then
-        					playSFXSDL(resPath .. "\\1up.wav");
-        					playOnce = true;
-        				end
-        				Graphics.placeSprite(1,threeup,500,110);
-        			else
-        				mem(0x00B2C5AC, FIELD_FLOAT, (curLivesCount + 1));
-        				if(playOnce == false) then
-        					playSFXSDL(resPath .. "\\1up.wav");
-        					playOnce = true;
-        				end
-        				Graphics.placeSprite(1,oneup,500,110);
-        			end
+                    if(card1 == 0) and (card2 == 0) and (card3 == 0) then
+                        mem(0x00B2C5AC, FIELD_FLOAT, (curLivesCount + 5));
+                        if(playOnce == false) then
+                            playSFXSDL(resPath .. "\\1up.wav");
+                            playOnce = true;
+                        end
+                        Graphics.placeSprite(1,fiveup,500,110);
+                    elseif(card1 == 1) and (card2 == 1) and (card3 == 1) then
+                        mem(0x00B2C5AC, FIELD_FLOAT, (curLivesCount + 2));
+                        if(playOnce == false) then
+                            playSFXSDL(resPath .. "\\1up.wav");
+                            playOnce = true;
+                        end
+                        Graphics.placeSprite(1,twoup,500,110);
+                    elseif(card1 == 2) and (card2 == 2) and (card3 == 2) then
+                        mem(0x00B2C5AC, FIELD_FLOAT, (curLivesCount + 3));
+                        if(playOnce == false) then
+                            playSFXSDL(resPath .. "\\1up.wav");
+                            playOnce = true;
+                        end
+                        Graphics.placeSprite(1,threeup,500,110);
+                    else
+                        mem(0x00B2C5AC, FIELD_FLOAT, (curLivesCount + 1));
+                        if(playOnce == false) then
+                            playSFXSDL(resPath .. "\\1up.wav");
+                            playOnce = true;
+                        end
+                        Graphics.placeSprite(1,oneup,500,110);
+                    end
 
-        			if(endLevelTimer >= 1) then
-	        			card1 = -1;
-	        			card2 = -1;
-	        			card3 = -1;
-	        			cards = 0;
-	        			dataInstance:set("card1", tostring(card1));
-	        			dataInstance:set("card2", tostring(card2));
-	        			dataInstance:set("card3", tostring(card3));
-        			end
-        		end
+                    if(endLevelTimer >= 1) then
+                        card1 = -1;
+                        card2 = -1;
+                        card3 = -1;
+                        cards = 0;
+                        dataInstance:set("card1", tostring(card1));
+                        dataInstance:set("card2", tostring(card2));
+                        dataInstance:set("card3", tostring(card3));
+                    end
+                end
 
-				dataInstance:set("cards", tostring(cards));
+                dataInstance:set("cards", tostring(cards));
 
-				dataInstance:save();
+                dataInstance:save();
         end
     end
 
@@ -304,7 +304,7 @@ end
 
 
 function smbGoalCard_API.usesCard(me)
-	doesUseCard = me;
+    doesUseCard = me;
 end
 
 return smbGoalCard_API;
