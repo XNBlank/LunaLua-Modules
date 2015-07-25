@@ -1,6 +1,6 @@
 # LunaLua-Modules
 
-A collection of modules I've made for SMBX + LunaLua
+A collection of modules I've made for SMBX + LunaLua.
 
 # What is LunaLua?
 LunaLua is a godsend: created by Kevsoft, it is an extension to the original LunaDLL. Using LunaLua, you can not only execute LunaDLL's autocode scripts, but also you can create your own Lua scripts! 
