@@ -36,12 +36,37 @@ function smbGoalCard_API.onInitAPI()
         registerEvent(smbGoalCard_API, "onLoad", "onLoadOverride");
         cards = tonumber(dataInstance:get("cards"));
 		local card1 = tonumber(dataInstance:get("card1"));
-		local card1 = tonumber(dataInstance:get("card2"));
-		local card1 = tonumber(dataInstance:get("card3"));
+		local card2 = tonumber(dataInstance:get("card2"));
+		local card3 = tonumber(dataInstance:get("card3"));
 end
 
 function smbGoalCard_API.onLoadOverride()
   
+
+	if(card1 == 0) then
+		Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
+	elseif(card1 == 1) then
+		Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
+	elseif(card1 == 2) then
+		Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
+	end
+
+	if(card2 == 0) then
+		Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
+	elseif(card2 == 1) then
+		Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
+	elseif(card2 == 2) then
+		Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
+	end
+
+	if(card3 == 0) then
+		Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
+	elseif(card3 == 1) then
+		Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
+	elseif(card3 == 2) then
+		Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
+	end
+
 end
 
 function smbGoalCard_API.onLoopOverride()
@@ -74,93 +99,11 @@ end
 
 function smbGoalCard_API.drawGottenCards()
 
-Text.print("Card 1 = " .. dataInstance:get("card1"), 0, 0);
-Text.print("Card 2 = " .. dataInstance:get("card2"), 0, 15);
-Text.print("Card 3 = " .. dataInstance:get("card3"), 0, 30);
-Text.print("Current Card = " .. tostring(thiscard), 0, 60);
-Text.print("Cards = " .. tostring(cards), 0, 75);
-
-  --[[
-if(cards == 1) then
-	if(card1 < 0) then
-		card1 = tonumber(thiscard);
-
-	end
-
-	if(card1 == 0) then
-		Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
-	elseif(card1 == 1) then
-		Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
-	elseif(card1 == 2) then
-		Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
-	end
-end
-
-if(cards == 2) then
-	if(card2 < 0) then
-		card2 = tonumber(thiscard);
-
-	end
-
-	if(card2 == 0) then
-		Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
-	elseif(card2 == 1) then
-		Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
-	elseif(card2 == 2) then
-		Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
-	end
-end
-
-if(cards == 3) then
-	if(card3 < 0) then
-		card3 = tonumber(thiscard);
-
-	end
-
-	if(card3 == 0) then
-		Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
-	elseif(card3 == 1) then
-		Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
-	elseif(card3 == 2) then
-		Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
-	end
-end
-
-
-
-
-  if(dCard1 ~= -1) then
-    if(dCard1 == 0) then
-      Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
-    elseif(dCard1 == 1) then
-      Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
-    elseif(dCard1 == 2) then
-      Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
-    end
-  end
-  
-  if(dCard2 ~= -1) then
-    if(dCard2 == 0) then
-      Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
-    elseif(dCard2 == 1) then
-      Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
-    elseif(dCard2 == 2) then
-      Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
-    end
-  end
-  
-  if(dCard3 ~= -1) then
-    if(dCard3 == 0) then
-      Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
-    elseif(dCard3 == 1) then
-      Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
-    elseif(dCard3 == 2) then
-      Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
-    end
-  end
-
-]]
-
+	Text.print("Card 1 = " .. dataInstance:get("card1"), 0, 0);
+	Text.print("Card 2 = " .. dataInstance:get("card2"), 0, 15);
+	Text.print("Card 3 = " .. dataInstance:get("card3"), 0, 30);
+	Text.print("Current Card = " .. tostring(thiscard), 0, 60);
+	Text.print("Cards = " .. tostring(cards), 0, 75);
 
 end
 
