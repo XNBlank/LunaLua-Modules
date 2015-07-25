@@ -24,53 +24,64 @@ local curLivesCount = tonumber(mem(0x00B2C5AC, FIELD_DWORD));
 local dataInstance = Data(Data.DATA_WORLD, true);
 
 local levelFinished = false;
+local firstRun = true
 
 smbGoalCard_API.GUIPosition1 = {x = 650, y = 550}
 smbGoalCard_API.GUIPosition2 = {x = 698, y = 550}
 smbGoalCard_API.GUIPosition3 = {x = 746, y = 550}
 
 function smbGoalCard_API.onInitAPI()
-        gotcard = false;
-        addCard = false;
-        registerEvent(smbGoalCard_API, "onLoop", "onLoopOverride");
-        registerEvent(smbGoalCard_API, "onLoad", "onLoadOverride");
-        cards = tonumber(dataInstance:get("cards"));
-		card1 = tonumber(dataInstance:get("card1"));
-		card2 = tonumber(dataInstance:get("card2"));
-		card3 = tonumber(dataInstance:get("card3"));
+    gotcard = false;
+    addCard = false;
+    registerEvent(smbGoalCard_API, "onLoop", "onLoopOverride");
+    registerEvent(smbGoalCard_API, "onLoad", "onLoadOverride");
+    cards = tonumber(dataInstance:get("cards"));
+    card1 = tonumber(dataInstance:get("card1"));
+    card2 = tonumber(dataInstance:get("card2"));
+    card3 = tonumber(dataInstance:get("card3"));
 
 end
 
 function smbGoalCard_API.onLoadOverride()
-  
-
-	if(card1 == 0) then
-		Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
-	elseif(card1 == 1) then
-		Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
-	elseif(card1 == 2) then
-		Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
-	end
-
-	if(card2 == 0) then
-		Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
-	elseif(card2 == 1) then
-		Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
-	elseif(card2 == 2) then
-		Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
-	end
-
-	if(card3 == 0) then
-		Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
-	elseif(card3 == 1) then
-		Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
-	elseif(card3 == 2) then
-		Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
-	end
-
+    
 end
 
+
+
 function smbGoalCard_API.onLoopOverride()
+        if(firstRun)then
+        
+            Graphics.placeSprite(1,uicard,smbGoalCard_API.GUIPosition1.x,smbGoalCard_API.GUIPosition1.y);
+            Graphics.placeSprite(1,uicard,smbGoalCard_API.GUIPosition2.x,smbGoalCard_API.GUIPosition2.y);
+            Graphics.placeSprite(1,uicard,smbGoalCard_API.GUIPosition3.x,smbGoalCard_API.GUIPosition3.y);
+
+            if(card1 == 0) then
+                Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
+            elseif(card1 == 1) then
+                Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
+            elseif(card1 == 2) then
+                Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition1.x, smbGoalCard_API.GUIPosition1.y);
+            end
+
+            if(card2 == 0) then
+                Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
+            elseif(card2 == 1) then
+                Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
+            elseif(card2 == 2) then
+                Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition2.x, smbGoalCard_API.GUIPosition2.y);
+            end
+
+            if(card3 == 0) then
+                Graphics.placeSprite(1, starcard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
+            elseif(card3 == 1) then
+                Graphics.placeSprite(1, mushroomcard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
+            elseif(card3 == 2) then
+                Graphics.placeSprite(1, flowercard, smbGoalCard_API.GUIPosition3.x, smbGoalCard_API.GUIPosition3.y);
+            end
+      
+            
+            firstRun = false
+        end
 
         temp = NPC.get(11, -1);
 
@@ -84,9 +95,6 @@ function smbGoalCard_API.onLoopOverride()
         --temp[0]:mem(0xE4, FIELD_WORD);
 
 
-        Graphics.placeSprite(1,uicard,smbGoalCard_API.GUIPosition1.x,smbGoalCard_API.GUIPosition1.y, "", 2);
-        Graphics.placeSprite(1,uicard,smbGoalCard_API.GUIPosition2.x,smbGoalCard_API.GUIPosition2.y, "", 2);
-        Graphics.placeSprite(1,uicard,smbGoalCard_API.GUIPosition3.x,smbGoalCard_API.GUIPosition3.y, "", 2);
 
         smbGoalCard_API.drawGottenCards();
         
@@ -99,13 +107,14 @@ function smbGoalCard_API.onLoopOverride()
 end
 
 function smbGoalCard_API.drawGottenCards()
-
-	Text.print("Card 1 = " .. dataInstance:get("card1"), 0, 0);
-	Text.print("Card 2 = " .. dataInstance:get("card2"), 0, 15);
-	Text.print("Card 3 = " .. dataInstance:get("card3"), 0, 30);
-	Text.print("Current Card = " .. tostring(thiscard), 0, 60);
+	--[[
+	Text.print("Card 1 = " .. dataInstance:get("card1"), 0, 100);
+	Text.print("Card 2 = " .. dataInstance:get("card2"), 0, 115);
+	Text.print("Card 3 = " .. dataInstance:get("card3"), 0, 130);
+	Text.print("Current Card = " .. tostring(thiscard), 0, 160);
 	Text.print("Cards = " .. tostring(cards), 0, 75);
-
+    Text.print("Win state: " .. Level.winState(), 0, 200)
+]]
 end
 
 function smbGoalCard_API.endLevel()
@@ -207,11 +216,11 @@ function smbGoalCard_API.endLevel()
                 
                 
                 if(cards == 1) then
-                	Text.print("set card1 to " .. tostring(card1), 0, 45);
+                	--Text.print("set card1 to " .. tostring(card1), 0, 45);
             	elseif(cards == 2) then
-            		Text.print("set card2 to " .. tostring(card2), 0, 45);
+            		--Text.print("set card2 to " .. tostring(card2), 0, 45);
         		elseif(cards == 3) then
-        			Text.print("set card3 to " .. tostring(card3), 0, 45);
+        			--Text.print("set card3 to " .. tostring(card3), 0, 45);
         		end
 
 				dataInstance:set("cards", tostring(cards));
