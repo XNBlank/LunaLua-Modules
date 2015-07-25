@@ -35,9 +35,10 @@ function smbGoalCard_API.onInitAPI()
         registerEvent(smbGoalCard_API, "onLoop", "onLoopOverride");
         registerEvent(smbGoalCard_API, "onLoad", "onLoadOverride");
         cards = tonumber(dataInstance:get("cards"));
-		local card1 = tonumber(dataInstance:get("card1"));
-		local card2 = tonumber(dataInstance:get("card2"));
-		local card3 = tonumber(dataInstance:get("card3"));
+		card1 = tonumber(dataInstance:get("card1"));
+		card2 = tonumber(dataInstance:get("card2"));
+		card3 = tonumber(dataInstance:get("card3"));
+
 end
 
 function smbGoalCard_API.onLoadOverride()
@@ -129,6 +130,18 @@ function smbGoalCard_API.endLevel()
 	        end
 
                 gotcard = true;
+
+				if (card1 == nil) then
+					card1 = -1;
+				end
+				if (card2 == nil) then
+					card2 = -1;
+				end
+				if (card3 == nil) then
+					card3 = -1;
+				end
+
+
 				if(cards == 1) then
 					if(card1 < 0) then
 						card1 = tonumber(thiscard);
