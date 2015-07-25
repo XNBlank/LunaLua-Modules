@@ -21,6 +21,9 @@ local mushroomcard = Graphics.loadImage(resPath .. "\\mushroom.png");
 local flowercard = Graphics.loadImage(resPath .. "\\flower.png");
 local starcard = Graphics.loadImage(resPath .. "\\star.png");
 
+
+local dataInstance = Data(Data.DATA_WORLD, true);
+
 local levelFinished = false;
 
 smbGoalCard_API.GUIPosition1 = {x = 650, y = 550}
@@ -101,11 +104,38 @@ function smbGoalCard_API.endLevel()
 			Graphics.placeSprite(1,starcard,450,96, "", 2);
 		end
 
-		
-		myData = Data(DATA_WORLD, true);
+		smbGoalCard_API.saveData();
 
 
 	end
+
+end
+
+
+function smbGoalCard_API.saveData()
+
+	local dCard1 = tonumber(dataInstance:get("card1"));
+	local dCard2 = tonumber(dataInstance:get("card2"));
+	local dCard3 = tonumber(dataInstance:get("card3"));
+
+	if(dCard1 > 0) then
+		if(dCard2 > 0) then
+			if(dCard3 > 0) then
+				--Reward the player
+			else
+				dataInstance:set("card3", thiscard);
+			end
+		else
+			dataInstance:set("card2", thiscard);
+		end
+	else
+		dataInstance:set("card1", thiscard);
+	end
+
+	dataInstance:save();
+end
+
+function smbGoalCard_API.loadData()
 
 end
 
