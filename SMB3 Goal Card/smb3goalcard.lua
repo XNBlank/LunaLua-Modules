@@ -40,7 +40,7 @@ function smbGoalCard_API.onLoopOverride()
 
 	elseif(temp[1] ~= nil) then
 	thiscard = (temp[1]:mem(0xE4, FIELD_WORD));
-	Text.print(tostring(temp[1]:mem(0xE4, FIELD_WORD)), 0, 0);
+	-- Text.print(tostring(temp[1]:mem(0xE4, FIELD_WORD)), 0, 0);
 	end
 
 	--temp[0]:mem(0xE4, FIELD_WORD);
@@ -100,6 +100,10 @@ function smbGoalCard_API.endLevel()
 		elseif(thiscard == 0) then
 			Graphics.placeSprite(1,starcard,450,96, "", 2);
 		end
+
+		
+		myData = Data(DATA_WORLD, true);
+
 
 	end
 
