@@ -1,8 +1,18 @@
 local __title = "SMB3 Goal Cards";
-local __version = "0.1";
+local __version = "1.0";
 local __description = "Make the SMB3 Goal Card act as it did in SMB3.";
 local __author = "XNBlank";
 local __url = "https://github.com/XNBlank";
+
+--[[
+HOW TO USE
+
+1 . Make a new file in your worlds folder called LunaWorld.lua.
+2 . Add " smb3card = loadAPI("smb3goalcard"); " to the file.
+3 . In your onLoad function, you can toggle the card function on/off with " smb3card.usesCard(TRUE/FALSE); "
+4 . If you want to have a certain level not use the card function, or if it doesn't have a card, add the above line, set it to false, and put it into a LunaDll.lua file in that levels graphic folder.
+
+]]
 
 local smbGoalCard_API = {} --instance
 
@@ -12,16 +22,24 @@ local card3 = -1;
 local cards = 0;
 local goalcard = NPC(11);
 local getframe = 0;
+local postWinFrameCounter = 0;
+local endLevelTimer = 0;
 local gotcard = false;
 local addCard = false;
 local doesUseCard = true;
+local playOnce = false;
 local resPath = getSMBXPath() .. "\\LuaScriptsLib\\smb3goalcard"; --res path
 local uicard = Graphics.loadImage(resPath .. "\\smb3card.png");
 local mushroomcard = Graphics.loadImage(resPath .. "\\mushroom.png");
 local flowercard = Graphics.loadImage(resPath .. "\\flower.png");
 local starcard = Graphics.loadImage(resPath .. "\\star.png");
 
-local curLivesCount = tonumber(mem(0x00B2C5AC, FIELD_DWORD));
+local oneup = Graphics.loadImage(resPath .. "\\1up.png");
+local twoup = Graphics.loadImage(resPath .. "\\2up.png");
+local threeup = Graphics.loadImage(resPath .. "\\3up.png");
+local fiveup = Graphics.loadImage(resPath .. "\\5up.png");
+
+local curLivesCount = mem(0x00B2C5AC, FIELD_FLOAT);
 local dataInstance = Data(Data.DATA_WORLD, true);
 
 local levelFinished = false;
@@ -51,7 +69,7 @@ end
 
 function smbGoalCard_API.onLoopOverride()
         if(firstRun)then
-        
+
             Graphics.placeSprite(1,uicard,smbGoalCard_API.GUIPosition1.x,smbGoalCard_API.GUIPosition1.y);
             Graphics.placeSprite(1,uicard,smbGoalCard_API.GUIPosition2.x,smbGoalCard_API.GUIPosition2.y);
             Graphics.placeSprite(1,uicard,smbGoalCard_API.GUIPosition3.x,smbGoalCard_API.GUIPosition3.y);
@@ -97,7 +115,7 @@ function smbGoalCard_API.onLoopOverride()
 
 
 
-        smbGoalCard_API.drawGottenCards();
+        smbGoalCard_API.debugDraw();
         
         if(Level.winState() > 0) then
             smbGoalCard_API.endLevel();
@@ -107,11 +125,13 @@ function smbGoalCard_API.onLoopOverride()
 
 end
 
-function smbGoalCard_API.drawGottenCards()
+function smbGoalCard_API.debugDraw()
     --[[
     Text.print("Card 1 = " .. dataInstance:get("card1"), 0, 100);
     Text.print("Card 2 = " .. dataInstance:get("card2"), 0, 115);
     Text.print("Card 3 = " .. dataInstance:get("card3"), 0, 130);
+    Text.print("Timer = " .. tostring(endLevelTimer), 0, 160);
+    
     Text.print("Current Card = " .. tostring(thiscard), 0, 160);
     Text.print("Cards = " .. tostring(cards), 0, 75);
     Text.print("Win state: " .. Level.winState(), 0, 200)
@@ -125,6 +145,9 @@ function smbGoalCard_API.endLevel()
     if(doesUseCard == true) then
 
         if(Level.winState() > 0) then
+
+            postWinFrameCounter = postWinFrameCounter + 1;
+            local endLevelTimer = round(postWinFrameCounter / 60, 0);
 
             if (addCard == false) then
                 if(cards == nil) then
@@ -214,23 +237,57 @@ function smbGoalCard_API.endLevel()
                         local dCard3 = tonumber(dataInstance:get("card3 "));
                 end
 
-                
-                
+               
                 
                 
                 if(cards == 1) then
                     --Text.print("set card1 to " .. tostring(card1), 0, 45);
+                    
                 elseif(cards == 2) then
                     --Text.print("set card2 to " .. tostring(card2), 0, 45);
+                    
                 elseif(cards == 3) then
                     --Text.print("set card3 to " .. tostring(card3), 0, 45);
-                    card1 = -1;
-                    card2 = -1;
-                    card3 = -1;
-                    cards = 0;
-                    dataInstance:set("card1", tostring(card1));
-                    dataInstance:set("card2", tostring(card2));
-                    dataInstance:set("card3", tostring(card3));
+
+                    if(card1 == 0) and (card2 == 0) and (card3 == 0) then
+                        mem(0x00B2C5AC, FIELD_FLOAT, (curLivesCount + 5));
+                        if(playOnce == false) then
+                            playSFXSDL(resPath .. "\\1up.wav");
+                            playOnce = true;
+                        end
+                        Graphics.placeSprite(1,fiveup,500,110);
+                    elseif(card1 == 1) and (card2 == 1) and (card3 == 1) then
+                        mem(0x00B2C5AC, FIELD_FLOAT, (curLivesCount + 2));
+                        if(playOnce == false) then
+                            playSFXSDL(resPath .. "\\1up.wav");
+                            playOnce = true;
+                        end
+                        Graphics.placeSprite(1,twoup,500,110);
+                    elseif(card1 == 2) and (card2 == 2) and (card3 == 2) then
+                        mem(0x00B2C5AC, FIELD_FLOAT, (curLivesCount + 3));
+                        if(playOnce == false) then
+                            playSFXSDL(resPath .. "\\1up.wav");
+                            playOnce = true;
+                        end
+                        Graphics.placeSprite(1,threeup,500,110);
+                    else
+                        mem(0x00B2C5AC, FIELD_FLOAT, (curLivesCount + 1));
+                        if(playOnce == false) then
+                            playSFXSDL(resPath .. "\\1up.wav");
+                            playOnce = true;
+                        end
+                        Graphics.placeSprite(1,oneup,500,110);
+                    end
+
+                    if(endLevelTimer >= 1) then
+                        card1 = -1;
+                        card2 = -1;
+                        card3 = -1;
+                        cards = 0;
+                        dataInstance:set("card1", tostring(card1));
+                        dataInstance:set("card2", tostring(card2));
+                        dataInstance:set("card3", tostring(card3));
+                    end
                 end
 
                 dataInstance:set("cards", tostring(cards));
