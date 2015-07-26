@@ -1,5 +1,5 @@
 local __title = "SMB3 Overhaul Mod";
-local __version = "1.0";
+local __version = "1.0.1";
 local __description = "Makes SMBX more like SMB3. Credit to Mike Santiago for the timer api.";
 local __author = "XNBlank";
 local __url = "https://github.com/XNBlank";
@@ -17,10 +17,11 @@ local pbarGfx = Graphics.loadImage(resPath .. "\\pbar.png"); --ui thing
 local pbarGfx_arrow = Graphics.loadImage(resPath .. "\\pbar_arrow.png"); --ui thing
 local pbarGfx_active = Graphics.loadImage(resPath .. "\\pbar_active.png"); --ui thing
 local useReserve = false;
-
+local toggleEasyMode = true;
 local usePBar = true;
 local pbarCount = 0;
 local reduceTimer = 6;
+local lastpowerup = 0;
 
 --Load leveltimer vars (by LuigiFan2010)
 local secondsleft = 300; --The amount of seconds left.
@@ -111,6 +112,22 @@ function smb_threeHud_API.onLoopOverride()
 		player.reservePowerup = 0;
 	end
 
+
+  if(toggleEasyMode == true) then
+    local isHurt = player:mem(0x140, FIELD_WORD);
+
+    if(player.powerup > 2) then
+      lastpowerup = player.powerup;
+    end
+
+    if(lastpowerup > 2) and (isHurt > 50) then
+      player.powerup = 2;
+      lastpowerup = player.powerup;
+    end
+
+    --Text.print(tostring(isHurt), 0 ,0);
+    --Text.print(tostring(player.powerup), 0 ,16);
+  end
 
 
 	--Load internal functions and variables
@@ -615,6 +632,9 @@ function smb_threeHud_API.usesPBar(me)
   usePBar = me;
 end
 
+function smb_threeHud_API.useEasyMode(me)
+  toggleEasyMode = me;
+end
 
 
 return smb_threeHud_API;
