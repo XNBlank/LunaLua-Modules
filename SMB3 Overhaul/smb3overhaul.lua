@@ -1,5 +1,5 @@
 local __title = "SMB3 Overhaul Mod";
-local __version = "1.0.1";
+local __version = "1.0.2";
 local __description = "Makes SMBX more like SMB3. Credit to Mike Santiago for the timer api.";
 local __author = "XNBlank";
 local __url = "https://github.com/XNBlank";
@@ -22,6 +22,7 @@ local usePBar = true;
 local pbarCount = 0;
 local reduceTimer = 6;
 local lastpowerup = 0;
+local disableSpinJump = true;
 
 --Load leveltimer vars (by LuigiFan2010)
 local secondsleft = 300; --The amount of seconds left.
@@ -54,6 +55,7 @@ local gotcard = false;
 local addCard = false;
 local doesUseCard = true;
 local playOnce = false;
+local timer = 1;
 local mushroomcard = Graphics.loadImage(resPath .. "\\mushroom.png");
 local flowercard = Graphics.loadImage(resPath .. "\\flower.png");
 local starcard = Graphics.loadImage(resPath .. "\\star.png");
@@ -64,6 +66,7 @@ local threeup = Graphics.loadImage(resPath .. "\\3up.png");
 local fiveup = Graphics.loadImage(resPath .. "\\5up.png");
 
 local curLivesCount = mem(0x00B2C5AC, FIELD_FLOAT);
+
 local dataInstance = Data(Data.DATA_WORLD,"SMB3 Cards", true);
 
 local levelFinished = false;
@@ -98,7 +101,7 @@ function smb_threeHud_API.onInitAPI()
 	Defines.smb3RouletteScoreValueFlower = 3;
 
 	registerEvent(smb_threeHud_API, "onLoop", "onLoopOverride");
-
+	registerEvent(smb_threeHud_API, "onInputUpdate", "onInputUpdateOverride");
 
 end
 
@@ -111,6 +114,20 @@ function smb_threeHud_API.onLoopOverride()
 	if(useReserve == false) then
 		player.reservePowerup = 0;
 	end
+
+	--[[
+	--This was used to test for collisions for disabling spin jump
+
+	Text.print("If the player is touching the ground or ", 0, 0);
+	Text.print("a slope, disable Spin Jump.", 0, 16);
+	Text.print("Sprite standing on " .. tostring(player:mem(0x176, FIELD_WORD)), 0, 48);
+	Text.print("Climbing " .. tostring(player:mem(0x40, FIELD_WORD)), 0, 64);
+	if(player.altJumpKeyPressing == true) then
+		Text.print("Player IS pressing Spin Jump", 0, 80);
+	elseif(player.altJumpKeyPressing == false) then
+		Text.print("Player IS NOT pressing Spin Jump", 0, 80);
+	end
+	]]
 
 
   if(toggleEasyMode == true) then
@@ -157,7 +174,7 @@ function smb_threeHud_API.onLoopOverride()
 	Text.print(tostring(lives), 1,140, 570);
 
 	Text.print(levelname,85, 549);
-	--Text.print(tostring(speed), 0, 0);
+	--Text.print(tostring(canFly), 0, 0);
 	--Text.print(tostring(pbarCount), 0, 16);
 	--Text.print(tostring(isFlying), 0, 32);
 
@@ -634,6 +651,27 @@ end
 
 function smb_threeHud_API.useEasyMode(me)
   toggleEasyMode = me;
+end
+
+function smb_threeHud_API.disableSpinJump(me)
+	disableSpinJump = me;
+end
+
+function smb_threeHud_API.onInputUpdateOverride()
+
+
+	if(disableSpinJump == true) then
+		if(player.altJumpKeyPressing == true) and (timer == 1) and (player:mem(0x146, FIELD_WORD) == 2) or (player.altJumpKeyPressing == true) and (timer == 1) and  (player:mem(0x48, FIELD_WORD) > 0) or (player.altJumpKeyPressing == true) and (timer == 1) and  (player:mem(0x176, FIELD_WORD) > 0) or (player.altJumpKeyPressing == true) and (timer == 1) and  (player:mem(0x40, FIELD_WORD) > 0) then
+			player.altJumpKeyPressing = false;
+			player:mem(0x50, FIELD_WORD, 0);
+			player:mem(0x11C, FIELD_WORD, 15);
+			player.jumpKeyPressing = true;
+			timer = 0;
+		elseif(player.altJumpKeyPressing == false) and (timer == 0) then
+			timer = 1;
+		end
+	end
+
 end
 
 
